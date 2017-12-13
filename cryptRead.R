@@ -12,4 +12,4 @@ read.aes <- function(filename,key) {
 
 # read credentials
 load("mykey.RData") # whatever you named your key RData file
-logins <- read.aes("mycredentials.txt", key)
+logins <- read.aes("mycredentials.txt", mykey)
