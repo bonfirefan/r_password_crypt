@@ -1,5 +1,6 @@
 ####Encryption functions
 library("digest")
+
 # write encrypted data frame to file
 write.aes <- function(df,filename, key) {
   require(digest)
@@ -13,16 +14,11 @@ write.aes <- function(df,filename, key) {
   aes$encrypt(raw)
   writeBin(aes$encrypt(raw),filename)  
 }
-# read encypted data frame from file
-read.aes <- function(filename,key) {
-  require(digest)
-  dat <- readBin(filename,"raw",n=1000)
-  aes <- AES(key,mode="ECB")
-  raw <- aes$decrypt(dat, raw=TRUE)
-  txt <- rawToChar(raw[raw>0])
-  read.csv(text=txt, stringsAsFactors = F)
-}
 
+# create key
+mykey <- as.raw( sample(1:16, 16))
+save(mykey,file = "mykey.RData")
 
-key <- as.raw( sample(1:16, 16))
-save(key,file = "key.RData")
+# implementation
+credentials <- as.data.frame(list("user" = "myuser", "pwd" = "mypassword"))
+write.aes(df = credentials, filename = "mycredentials.txt", key = mykey)
